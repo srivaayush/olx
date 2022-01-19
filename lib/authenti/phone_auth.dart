@@ -4,17 +4,17 @@ import 'package:olx/screens/otp_screen.dart';
 import 'package:olx/services/phone_services.dart';
 
 class phoneauthscreen extends StatefulWidget {
-  static const String id='phone-auth-screen';
+  static const String id = 'phone-auth-screen';
   @override
   _phoneauthscreenState createState() => _phoneauthscreenState();
 }
 
 class _phoneauthscreenState extends State<phoneauthscreen> {
-  bool valid=false;
+  bool valid = false;
   @override
-  var countrycodeController=TextEditingController(text:'+91');
-  var phoneController=TextEditingController();
-  phoneauthservices _service=phoneauthservices();
+  var countrycodeController = TextEditingController(text: '+91');
+  var phoneController = TextEditingController();
+  phoneauthservices _service = phoneauthservices();
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,12 +22,15 @@ class _phoneauthscreenState extends State<phoneauthscreen> {
       appBar: AppBar(
         elevation: 1,
         backgroundColor: Colors.black12,
-        title: Text('Login',style: TextStyle(color: Colors.black),),
+        title: Text(
+          'Login',
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: Padding(
-        padding:const EdgeInsets.all(20.0),
-        child:Column(
-          crossAxisAlignment:CrossAxisAlignment.start,
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               height: 40,
@@ -44,42 +47,40 @@ class _phoneauthscreenState extends State<phoneauthscreen> {
             SizedBox(
               height: 10,
             ),
-            Text('Enter your Phone',style: TextStyle(fontSize:30,fontWeight: FontWeight.bold,color: Colors.black)),
+            Text('Enter your Phone',
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black)),
             SizedBox(
               height: 15,
             ),
-            Text('We will send otp to your phone',style: TextStyle(fontSize:15,color: Colors.black54)),
+            Text('We will send otp to your phone',
+                style: TextStyle(fontSize: 15, color: Colors.black54)),
             Row(
               children: [
                 Expanded(
                     flex: 2,
                     child: TextFormField(
-                      controller:countrycodeController,
+                      controller: countrycodeController,
                       decoration: InputDecoration(
                         labelText: 'Country',
                       ),
-                    )
-                ),
+                    )),
                 SizedBox(
                   width: 10,
                 ),
                 Expanded(
                     flex: 8,
                     child: TextFormField(
-                      onChanged: (value)
-                      {
-                        if(value.length==10)
-                        {
-                          setState(()
-                          {
-                            valid=true;
+                      onChanged: (value) {
+                        if (value.length == 10) {
+                          setState(() {
+                            valid = true;
                           });
-                        }
-                        else
-                        {
-                          setState(()
-                          {
-                            valid=false;
+                        } else {
+                          setState(() {
+                            valid = false;
                           });
                         }
                       },
@@ -90,38 +91,39 @@ class _phoneauthscreenState extends State<phoneauthscreen> {
                         labelText: 'Phone Number',
                         hintText: 'Enter your Phone Number',
                       ),
-                    )
-                ),
+                    )),
               ],
             ),
           ],
-
         ),
       ),
       bottomNavigationBar: SafeArea(
           child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child:AbsorbPointer(
-                absorbing: valid==true?true:false,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: valid==true?MaterialStateProperty.all(Colors.blue):MaterialStateProperty.all(Colors.grey),
-                  ),
-                  onPressed: (){
-                    String number='${countrycodeController.text}${phoneController.text}';
-                    _service.verifyPhoneNumber(context, number);
-                    OTPScreen();
-                  },
-                  child: Text('Next',
-                    style: TextStyle(
-                        color: Colors.white,fontWeight:FontWeight.bold
-                    ),
-                  ),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: valid == true
+                      ? MaterialStateProperty.all(Colors.blue)
+                      : MaterialStateProperty.all(Colors.grey),
                 ),
-              )
-          )
-      ),
-
+                onPressed: () {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => OTPScreen(),
+                  //   ),
+                  // );
+                  String number =
+                      '${countrycodeController.text}${phoneController.text}';
+                  _service.verifyPhoneNumber(context, number);
+                  OTPScreen();
+                },
+                child: Text(
+                  'Next',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ))),
     );
   }
 }
