@@ -14,28 +14,28 @@ class category_widgit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-   // FirebaseService _services=FirebaseService();
+    // FirebaseService _services=FirebaseService();
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        child: FutureBuilder<List<Data>>(
-          future: getCategories(),
-          builder: (BuildContext context,  snapshot) {
-            if (snapshot.hasError) {
-              return Container();
-            }
-
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator(),);
-            }
-          if (snapshot.data == null) {
-              return Container(
-              child: Text("Loading"),
-              );
+          child: FutureBuilder<dynamic>(
+        future: getCategories(),
+        builder: (BuildContext context, snapshot) {
+          if (snapshot.hasError) {
+            return Container();
           }
-          else {
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.data == null) {
+            return Container(
+              child: Text("Loading"),
+            );
+          } else {
             return Container(
               height: 200,
               child: Column(
@@ -47,60 +47,54 @@ class category_widgit extends StatelessWidget {
                           onPressed: () {},
                           child: Row(
                             children: [
-                              Text(
-                                  'See all',
+                              Text('See all',
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
-                                  )
-                              ),
+                                  )),
                               Icon(
                                 Icons.arrow_forward_ios,
                                 size: 12,
                               ),
                             ],
-                          )
-                      ),
+                          )),
                     ],
                   ),
                   Expanded(
-
                       child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        // print(snapshot.data.runtimeType),
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          var doc = snapshot.data!.docs[index];
-                          print('sita');
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                                width: 60,
-                                height: 50,
-                                child: Column(
-                                  children: [
-                                    Image.network(doc['image']),
-                                    Text(doc['catName']),
-                                  ],
-                                )
-                            ),
-                          );
-                        },
-                      )
-                  )
+                    scrollDirection: Axis.horizontal,
+                    // print(snapshot.data.runtimeType),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      var doc = snapshot.data!.docs[index];
+                      print('sita');
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                            width: 60,
+                            height: 50,
+                            child: Column(
+                              children: [
+                                Image.network(doc['image']),
+                                Text(doc['catName']),
+                              ],
+                            )),
+                      );
+                    },
+                  ))
                 ],
               ),
             );
           }
-          },
-        )
-      ),
+        },
+      )),
     );
   }
 }
 
 class FirebaseService {
-  User? user=FirebaseAuth.instance.currentUser;
-  CollectionReference users=FirebaseFirestore.instance.collection('users');
-  CollectionReference categories=FirebaseFirestore.instance.collection('categories');
+  User? user = FirebaseAuth.instance.currentUser;
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  CollectionReference categories =
+      FirebaseFirestore.instance.collection('categories');
 }
