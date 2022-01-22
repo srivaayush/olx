@@ -9,7 +9,7 @@ class banner extends StatelessWidget {
     return Neumorphic(
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height*0.25,
+        height: MediaQuery.of(context).size.height * 0.25,
         child: Column(
           children: [
             Padding(
@@ -19,7 +19,6 @@ class banner extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-
                       Text(
                         'CARS',
                         style: TextStyle(
@@ -27,42 +26,51 @@ class banner extends StatelessWidget {
                           fontSize: 30,
                         ),
                       ),
-                      SizedBox(height:20),
+                      SizedBox(height: 20),
                     ],
                   ),
-                   Neumorphic(
-                    child: Image.network('https://firebasestorage.googleapis.com/v0/b/myolx-7f64c.appspot.com/o/icons%2Ficons8-car-64.png?alt=media&token=6d3cbb6d-033c-4070-ab18-53b0584aedfc'),
+                  Neumorphic(
+                    child: Image.network(
+                        'https://firebasestorage.googleapis.com/v0/b/myolx-7f64c.appspot.com/o/icons%2Ficons8-car-64.png?alt=media&token=6d3cbb6d-033c-4070-ab18-53b0584aedfc'),
                   )
                 ],
               ),
             ),
             Row(
               children: [
-                Expanded(child: NeumorphicButton(
-                  onPressed: (){},
+                Expanded(
+                    child: NeumorphicButton(
+                  onPressed: () {},
                   style: NeumorphicStyle(color: Colors.lightGreen),
-                  child: Text('Buy',textAlign: TextAlign.center,
+                  child: Text(
+                    'Buy',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-
-                  ),),
-
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
                 )),
-                SizedBox(width: 20,),
-                Expanded(child: NeumorphicButton(
-                  onPressed: (){},
+                SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                    child: NeumorphicButton(
+                  onPressed: () {},
                   style: NeumorphicStyle(color: Colors.orangeAccent),
-                  child: Text('Sell',textAlign: TextAlign.center,
+                  child: Text(
+                    'Sell',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),),
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
                 )),
               ],
-            )
+            ),
           ],
         ),
       ),
