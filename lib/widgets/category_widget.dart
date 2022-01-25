@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class category_widgit extends StatelessWidget {
   const category_widgit({Key? key}) : super(key: key);
 
-  Future<List> getCategories() async {
+  Future<List<QueryDocumentSnapshot<Object?>>> getCategories() async {
     var firestore = FirebaseFirestore.instance;
     QuerySnapshot qn = await firestore.collection("categories").get();
     return qn.docs;
@@ -66,7 +66,8 @@ class category_widgit extends StatelessWidget {
                     // print(snapshot.data.runtimeType),
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
-                      var doc = snapshot.data!.docs[index];
+                      var doc = snapshot.data[index];
+                      print(snapshot.data[index]['image']);
                       print('sita');
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
