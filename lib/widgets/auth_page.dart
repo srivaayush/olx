@@ -6,9 +6,24 @@ import 'package:olx/authenti/google_auth.dart';
 import 'package:olx/authenti/phone_auth.dart';
 import 'package:olx/screens/otp_screen.dart';
 import 'package:olx/screens/home_screen.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class auth extends StatelessWidget {
   @override
+  facebookLogin() async {
+    print("FaceBook");
+    try {
+      final result =
+          await FacebookAuth.i.login(permissions: ['public_profile', 'email']);
+      if (result.status == LoginStatus.success) {
+        final userData = await FacebookAuth.i.getUserData();
+        print(userData);
+      }
+    } catch (error) {
+      print(error);
+    }
+  }
+
   Widget build(BuildContext context) {
     return Center(
       child: Column(
@@ -38,8 +53,7 @@ class auth extends StatelessWidget {
               onPressed: () async {
             User? user = await GoogleAuth.signInWithGoogle(context: context);
 
-            print(
-                'usssssssssssssssssssssssssssssssssssssssssssssssssssssssssssserrrrrrrrrrr $user');
+            print('user $user');
 
             if (user != null) {
               print('googlee successfulll');
@@ -54,6 +68,7 @@ class auth extends StatelessWidget {
           SignInButton(Buttons.FacebookNew, text: "Sign in with Facebook",
               onPressed: () {
             print("ram");
+            facebookLogin();
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => home_screen()));
           }),
