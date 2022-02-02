@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:olx/form/seller_form.dart';
 
 class banner extends StatelessWidget {
   const banner({Key? key}) : super(key: key);
@@ -57,7 +58,11 @@ class banner extends StatelessWidget {
                 ),
                 Expanded(
                     child: NeumorphicButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    print("sell");
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => seller_form()));
+                  },
                   style: NeumorphicStyle(color: Colors.orangeAccent),
                   child: Text(
                     'Sell',

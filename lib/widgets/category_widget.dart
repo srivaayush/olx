@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:olx/form/cat_provider.dart';
+import 'package:provider/provider.dart';
 
 class category_widgit extends StatelessWidget {
   const category_widgit({Key? key}) : super(key: key);
@@ -15,6 +18,8 @@ class category_widgit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // FirebaseService _services=FirebaseService();
+
+    var _catProvider = Provider.of<CategoryProvider>(context);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -68,7 +73,8 @@ class category_widgit extends StatelessWidget {
                     itemBuilder: (context, index) {
                       var doc = snapshot.data[index];
                       print(snapshot.data[index]['image']);
-                      print('sita');
+                      _catProvider.getCategory(doc['catName']);
+                      _catProvider.getSnapshot(doc);
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
