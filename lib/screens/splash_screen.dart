@@ -11,18 +11,21 @@ class _splashscreenState extends State<splashscreen> {
     return Scaffold(
       backgroundColor: Colors.lime,
       body: Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children:[
-              Image.asset('assets/images/cart.png',),
-              SizedBox(height:10,),
-              Center(
-                child: Text('Loading...'),
-              )
-            ]
-        ),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Image.asset(
+            'assets/images/cart.png',
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Center(
+            child: Text(
+              'Loading...',
+              style: TextStyle(fontWeight: FontWeight.w800),
+            ),
+          )
+        ]),
       ),
     );
   }
 }
-

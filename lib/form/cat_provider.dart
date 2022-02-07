@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 class CategoryProvider extends ChangeNotifier {
   late DocumentSnapshot doc;
   late String SelectedCategory;
+  List<String> urlList = [];
 
   getCategory(selectedCat) {
     this.SelectedCategory = selectedCat;
@@ -13,5 +14,11 @@ class CategoryProvider extends ChangeNotifier {
 
   getSnapshot(snapshot) {
     this.doc = snapshot;
+    notifyListeners();
+  }
+
+  getImages(url) {
+    this.urlList.add(url);
+    notifyListeners();
   }
 }

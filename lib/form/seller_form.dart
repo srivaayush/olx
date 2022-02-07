@@ -2,7 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:galleryimage/galleryimage.dart';
 import 'package:olx/form/cat_provider.dart';
+import 'package:olx/services/firebase_services.dart';
+import 'package:olx/widgets/ImagePickerWidget.dart';
 import 'package:provider/provider.dart';
 
 class seller_form extends StatefulWidget {
@@ -14,6 +17,8 @@ class seller_form extends StatefulWidget {
 
 class _seller_formState extends State<seller_form> {
   static const String id = 'seller-form';
+  FirebaseService _service = FirebaseService();
+
   final _formkey = GlobalKey<FormState>();
   var _brandController = TextEditingController();
   var _yearController = TextEditingController();
@@ -23,6 +28,23 @@ class _seller_formState extends State<seller_form> {
   var _addressController = TextEditingController();
 
   List<String> _fuelList = ['Diesel', 'Petrol', 'Electric', 'Gas'];
+
+  validate() {
+    if (_formkey.currentState!.validate()) {
+      print('validated');
+    }
+  }
+
+  String _address = '';
+
+  @override
+  void initstate() {
+    _service.getUserData().then((value) {
+      setState(() {
+        _addressController.text = value['address'];
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +135,7 @@ class _seller_formState extends State<seller_form> {
             )),
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(18.0),
+            padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0.0),
             child: Form(
               key: _formkey,
               child: SingleChildScrollView(
@@ -260,8 +282,46 @@ class _seller_formState extends State<seller_form> {
                       },
                     ),
                     SizedBox(
-                      height: 100,
+                      height: 30,
                     ),
+                    if (_catProvider.urlList.length > 0)
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            print(_catProvider.urlList.length);
+                          },
+                          child: GalleryImage(
+                            imageUrls: _catProvider.urlList,
+                          ),
+                        ),
+                      ),
+                    InkWell(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ImagePickerWidget();
+                            });
+                      },
+                      child: Neumorphic(
+                        child: Container(
+                          height: 40.0,
+                          child: Center(
+                            child: Text(
+                              'Upload Image',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),

@@ -26,53 +26,55 @@ class auth extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: 220,
-            child: ElevatedButton(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 90.0, right: 90.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => new phoneauthscreen()));
+                  },
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.phone_android_outlined,
+                        color: Colors.black,
+                      ),
+                      SizedBox(width: 8),
+                      Text('Continue with Phone'),
+                    ],
+                  )),
+            ),
+            SignInButton(Buttons.Google, text: "Sign in with Google",
+                onPressed: () async {
+              User? user = await GoogleAuth.signInWithGoogle(context: context);
+
+              print('user $user');
+
+              if (user != null) {
+                print('googlee successfulll');
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => home_screen()));
+                // OTPScreen();
+              } else {
+                print('Ram');
+              }
+              //signInWithGoogle(context);
+            }),
+            SignInButton(Buttons.FacebookNew, text: "Sign in with Facebook",
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new phoneauthscreen()));
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.phone_android_outlined,
-                      color: Colors.black,
-                    ),
-                    SizedBox(width: 8),
-                    Text('Continue with Phone'),
-                  ],
-                )),
-          ),
-          SignInButton(Buttons.Google, text: "Sign in with Google",
-              onPressed: () async {
-            User? user = await GoogleAuth.signInWithGoogle(context: context);
-
-            print('user $user');
-
-            if (user != null) {
-              print('googlee successfulll');
+              print("ram");
+              facebookLogin();
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => home_screen()));
-              // OTPScreen();
-            } else {
-              print('Ram');
-            }
-            //signInWithGoogle(context);
-          }),
-          SignInButton(Buttons.FacebookNew, text: "Sign in with Facebook",
-              onPressed: () {
-            print("ram");
-            facebookLogin();
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => home_screen()));
-          }),
-        ],
+            }),
+          ],
+        ),
       ),
     );
   }

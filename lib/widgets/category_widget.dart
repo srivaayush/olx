@@ -1,23 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:olx/form/cat_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:olx/services/firebase_services.dart';
 
 class category_widgit extends StatelessWidget {
   const category_widgit({Key? key}) : super(key: key);
 
   Future<List<QueryDocumentSnapshot<Object?>>> getCategories() async {
-    var firestore = FirebaseFirestore.instance;
-    QuerySnapshot qn = await firestore.collection("categories").get();
+    QuerySnapshot qn =
+        await FirebaseFirestore.instance.collection("categories").get();
     return qn.docs;
   }
 
   @override
   Widget build(BuildContext context) {
-    // FirebaseService _services=FirebaseService();
+    FirebaseService _services =
+        FirebaseService(); // 'package:olx/services/firebase_services.dart'
 
     var _catProvider = Provider.of<CategoryProvider>(context);
 
@@ -97,11 +97,4 @@ class category_widgit extends StatelessWidget {
       )),
     );
   }
-}
-
-class FirebaseService {
-  User? user = FirebaseAuth.instance.currentUser;
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
-  CollectionReference categories =
-      FirebaseFirestore.instance.collection('categories');
 }
