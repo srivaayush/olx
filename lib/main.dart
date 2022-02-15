@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:olx/authenti/phone_auth.dart';
+import 'package:olx/form/UserReviewScreen.dart';
+import 'package:olx/form/seller_form.dart';
 import 'package:olx/screens/login_page.dart';
 import 'package:olx/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +45,7 @@ class MyApp extends StatelessWidget {
             routes: {
               login.id: (context) => login(),
               phoneauthscreen.id: (context) => phoneauthscreen(),
+              UserReviewScreen.id: (context) => UserReviewScreen(),
             },
           );
         }

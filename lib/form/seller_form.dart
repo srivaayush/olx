@@ -1,8 +1,10 @@
+import 'dart:ffi';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:galleryimage/galleryimage.dart';
+import 'package:olx/form/UserReviewScreen.dart';
 import 'package:olx/form/cat_provider.dart';
 import 'package:olx/services/firebase_services.dart';
 import 'package:olx/widgets/ImagePickerWidget.dart';
@@ -25,25 +27,63 @@ class _seller_formState extends State<seller_form> {
   var _priceController = TextEditingController();
   var _fuelController = TextEditingController();
   var _kmController = TextEditingController();
-  var _addressController = TextEditingController();
+  var _descriptionController = TextEditingController();
 
   List<String> _fuelList = ['Diesel', 'Petrol', 'Electric', 'Gas'];
 
-  validate() {
+  validate(CategoryProvider provider) {
     if (_formkey.currentState!.validate()) {
-      print('validated');
+      if (provider.urlList.length > 0) {
+        provider.dataToFirestore.addAll({
+          'category': provider.SelectedCategory,
+          'brand': _brandController,
+          'year': _yearController,
+          'price': _priceController,
+          'fuel': _fuelController,
+          'kmDrive': _kmController,
+          'description': _descriptionController,
+          'id': _service.user!.uid,
+          'images': provider.urlList,
+        });
+
+        Navigator.pushNamed(context, UserReviewScreen.id);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Upload Images'),
+        ));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Please fill required fiels'),
+      ));
     }
   }
 
-  String _address = '';
-
   @override
-  void initstate() {
-    _service.getUserData().then((value) {
-      setState(() {
-        _addressController.text = value['address'];
-      });
+  void didChangeDependencies() {
+    // TO get context
+    var _catProvider = Provider.of<CategoryProvider>(context);
+    setState(() {
+      _brandController.text = _catProvider.dataToFirestore.isEmpty
+          ? ''
+          : _catProvider.dataToFirestore['brand'];
+      _yearController.text = _catProvider.dataToFirestore.isEmpty
+          ? ''
+          : _catProvider.dataToFirestore['year'];
+      _priceController.text = _catProvider.dataToFirestore.isEmpty
+          ? ''
+          : _catProvider.dataToFirestore['price'];
+      _fuelController.text = _catProvider.dataToFirestore.isEmpty
+          ? ''
+          : _catProvider.dataToFirestore['fuel'];
+      _kmController.text = _catProvider.dataToFirestore.isEmpty
+          ? ''
+          : _catProvider.dataToFirestore['km'];
+      _descriptionController.text = _catProvider.dataToFirestore.isEmpty
+          ? ''
+          : _catProvider.dataToFirestore['description'];
     });
+    super.didChangeDependencies();
   }
 
   @override
@@ -251,28 +291,13 @@ class _seller_formState extends State<seller_form> {
                       },
                     ),
                     TextFormField(
+                      controller: _descriptionController,
                       keyboardType: TextInputType.text,
                       maxLength: 500,
                       decoration: InputDecoration(
                         labelText: 'Description',
                         counterText:
                             'Mention Condition,feature and reason behind selling',
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Fill required fields';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: _addressController,
-                      keyboardType: TextInputType.text,
-                      minLines: 1,
-                      maxLines: 4,
-                      decoration: InputDecoration(
-                        labelText: 'Address',
-                        counterText: 'Your address with pincode',
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -344,7 +369,11 @@ class _seller_formState extends State<seller_form> {
                   style: NeumorphicStyle(
                     color: Colors.greenAccent,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    validate(_catProvider);
+                    print(_catProvider.dataToFirestore);
+                    Navigator.pushNamed(context, UserReviewScreen.id);
+                  },
                 ),
               ),
             )
