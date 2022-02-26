@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
@@ -24,26 +25,29 @@ class _UserReviewScreenState extends State<UserReviewScreen> {
   void didChangeDependencies() {
     var _provider = Provider.of<CategoryProvider>(context);
     _provider.getuserDetails();
+
+    //print(_provider.userDetails.data.runtimeType);
     setState(() {
+      // _nameController = _provider.userDetails['name'];
       _nameController = _provider.userDetails.data().toString().contains('name')
           ? _provider.userDetails['name']
-          : '';
+          : 'xyz';
       _countryController =
           _provider.userDetails.data().toString().contains('country')
               ? _provider.userDetails['country']
-              : '';
+              : 'xyz';
       _phoneController =
           _provider.userDetails.data().toString().contains('phone')
               ? _provider.userDetails['phone']
-              : '';
+              : 'xyz';
       _emailController =
           _provider.userDetails.data().toString().contains('email')
               ? _provider.userDetails['email']
-              : '';
+              : 'xyz';
       _addressController =
           _provider.userDetails.data().toString().contains('address')
               ? _provider.userDetails['address']
-              : '';
+              : 'xyz';
     });
     super.didChangeDependencies();
   }

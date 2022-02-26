@@ -8,6 +8,15 @@ class FirebaseService {
   CollectionReference categories =
       FirebaseFirestore.instance.collection('categories');
 
+  Future<void> addUser(uid) async {
+    return users.doc(user!.uid).set({
+      'uid': user!.uid,
+      'name': Null,
+      'mobile': user!.phoneNumber,
+      'email': user!.email,
+    }).catchError((error) => print("Failed to add user :$error"));
+  }
+
   Future<void> updateUser(Map<String, dynamic> data, context) async {
     return users.doc(user!.uid).update(data).then(
       (value) {

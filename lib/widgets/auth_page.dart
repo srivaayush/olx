@@ -7,6 +7,7 @@ import 'package:olx/authenti/phone_auth.dart';
 import 'package:olx/screens/otp_screen.dart';
 import 'package:olx/screens/home_screen.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:olx/services/firebase_services.dart';
 
 class auth extends StatelessWidget {
   @override
@@ -18,6 +19,9 @@ class auth extends StatelessWidget {
       if (result.status == LoginStatus.success) {
         final userData = await FacebookAuth.i.getUserData();
         print(userData);
+
+        FirebaseService _service = FirebaseService();
+        _service.addUser(userData['id']);
       }
     } catch (error) {
       print(error);
@@ -58,6 +62,10 @@ class auth extends StatelessWidget {
 
               if (user != null) {
                 print('googlee successfulll');
+
+                FirebaseService _service = FirebaseService();
+                _service.addUser(user.uid);
+
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => home_screen()));
                 // OTPScreen();
